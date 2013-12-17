@@ -1,0 +1,45 @@
+{
+  "name": "endive-rpc",
+  "version": "0.0.1",
+  "description": "rpc",
+  "author": {
+    "name": "yo2dh",
+    "email": "yo2dh@naver.com"
+  },
+  "private": false,
+  "homepage": "https://github.com/yo2dh/endive-rpc",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yo2dh/endive-rpc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yo2dh/endive-rpc/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/yo2dh/endive-rpc#license"
+    }
+  ],
+  "keywords": [
+    "endive",
+    "rpc"
+  ],
+  "dependencies": {
+    "socket.io": "0.9.16",
+    "hashish": "0.0.4",
+    "async": "0.2.5",
+    "seq-queue": "0.0.5",
+    "crc": "0.2.0"
+  },
+  "bin": {
+    "endive-rpc": "./bin/endive-rpc"
+  },
+  "devDependencies": {
+    "should": "~2.1.0",
+    "mocha": ">=0.0.1",
+    "socket.io-client": ">=0.0.1",
+    "jscoverage": ">=0.0.1",
+    "muk": ">=0.0.1"
+  }
+}
