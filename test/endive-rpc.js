@@ -5,10 +5,22 @@ var testBase = process.cwd() + '/test';
 
 describe( 'endive-rpc' , function() {
     describe( '#endive-rpc' , function() {
-        it( 'should create and get app' , function( done ) {
-            var rpc = erpc();
-            should.exist ( rpc );
-            done();
+        it( 'should create instance and set options correctly' , function( done ) {
+            var clientInfoList = [ { ip: '127.0.0.1' , port: '3800' } , { ip: '127.0.0.1' , port: '3805' } ];
+            var rpc = erpc( { clientInfoList: clientInfoList } );
+            should.exist( rpc );
+
+            var optClientInfoList = rpc.getOption( 'clientInfoList' );
+            for ( var i = 0 ; i < optClientInfoList.length ; i++ )
+            {
+                optClientInfoList[i].should.equal( clientInfoList[i] );
+            }
+            should.not.exist( rpc.getOption( 'serverPort' ) );
+//            should.equal ( rpc.getOption( 'serverPort' ) , 0 );
+
+            rpc.start();
+
+            setTimeout( done , 3000 );
         })
     });
 
