@@ -29,15 +29,12 @@
         "rpc"
     ] ,
     "dependencies": {
-        "endive-util": "0.0.3" ,
+        "endive-util": "0.0.2" ,
         "socket.io": "0.9.16" ,
         "hashish": "0.0.4" ,
         "async": "0.2.5" ,
         "seq-queue": "0.0.5" ,
         "crc": "0.2.0"
-    } ,
-    "bin": {
-        "endive-rpc": "./bin/endive-rpc"
     } ,
     "devDependencies": {
         "should": "~2.1.0" ,
