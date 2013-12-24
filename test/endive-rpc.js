@@ -1,5 +1,7 @@
 var erpc = require( '../' );
+var path = require( 'path' );
 var should = require( 'should' );
+var ProtoBuf = require( 'protobufjs' );
 
 var testBase = process.cwd() + '/test';
 
@@ -27,6 +29,51 @@ describe( 'endive-rpc' , function() {
         })
     });
 
+    describe( '#test-protobuf' , function() {
+        it( 'should load a proto file.' , function( done ) {
+            var dir = path.join( process.cwd() , 'protobuf' , 'call.proto' );
+            console.log( dir );
+            var builder = ProtoBuf.loadProtoFile(  dir );
+            var FunctionCall = builder.build( 'FunctionCall' );
+            var arguments = { a:'123' , b:'22' , c:4 , d:[3,2,'3'] };
+            var f = new FunctionCall ( 'int' , 'test' , JSON.stringify( arguments ) );
+            var testFunction = function(a , b , c , d) {
+                console.log( arguments );
+                console.log( arguments.length );
+            }
+            testFunction( 3 , 4 , 5 , 'a' )
+            /*
+            var encoded = f.encode();
+            console.log( 'encoded: ' + encoded + ', string length = ' + JSON.stringify ( f ).length );
+            var buffer = f.toArrayBuffer();
+            console.log( 'buffer:' );
+            console.log( buffer );
+            console.log( 'FunctionCall.decode( encoded ):' );
+            var fr = FunctionCall.decode( encoded );
+            console.log( fr );
+            fr = FunctionCall.decode( buffer );
+            console.log( 'FunctionCall.decode( buffer ):' );
+            console.log( fr );
+            */
+            // OR: As a base64 encoded string...
+            //var b64str = myMessage.toBase64(); // (*)
+            // myMessage.decode64( b64str );
+            /*
+             try {
+             var myMessage = YourMessage.decode(bufferWithMisstingRequiredField);
+             ...
+             } catch (e) {
+             if (e.decoded) { // Truncated
+             myMessage = e.decoded; // Decoded message with missing required fields
+             ...
+             } else { // General error
+             ...
+             }
+             }
+             */
+            done();
+        })
+    });
     describe( '#listen-connect' , function() {
         it( 'should listen and connect' , function( done ) {
 //            var rs = erpc ( );

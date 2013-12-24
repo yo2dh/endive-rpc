@@ -30,6 +30,7 @@
     ] ,
     "dependencies": {
         "endive-util": "0.0.2" ,
+        "protobufjs": "2.0.1" ,
         "socket.io": "0.9.16" ,
         "hashish": "0.0.4" ,
         "async": "0.2.5" ,
