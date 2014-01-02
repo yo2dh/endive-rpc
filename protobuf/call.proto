@@ -1,5 +1,0 @@
-message FunctionCall {
-    required string returnType = 1;
-    required string functionName = 2;
-    repeated string arguments = 3;
-}

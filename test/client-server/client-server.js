@@ -30,7 +30,7 @@ describe( 'client-server' , function() {
             server.listen();
             cm.start();
 
-            var dir = path.join( process.cwd() , 'protobuf' , 'call.proto' );
+            var dir = path.join( process.cwd() , 'protobuf' , 'functionCall.proto' );
             var builder = ProtoBuf.loadProtoFile(  dir );
             var FunctionCall = builder.build( 'FunctionCall' );
             var arguments = { a:'123' , b:'22' , c:4 , d:[3,2,'3'] };

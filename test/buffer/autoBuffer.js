@@ -5,9 +5,9 @@ var testBase = process.cwd() + '/test';
 describe( 'AutoBuffer' , function() {
     describe( '#Append&Pop' , function() {
         it( 'should append and pop correctly' , function( done ) {
-
+            var size = 5;
             var autoBuffer = new AutoBuffer ( 5 );
-            var buf = new Buffer ( 8 );
+            var buf = new Buffer ( size );
             {
                 for ( var i = 0 ; i < buf.length ; i++ )
                 {
@@ -23,7 +23,7 @@ describe( 'AutoBuffer' , function() {
             {
                 for ( var i = 0 ; i < length ; i ++ )
                 {
-                    buffer[i].should.equal( buf[i%8] );
+                    buffer[i].should.equal( buf[i%size] );
                 }
             }
             var newBuffer = new Buffer( 12 );
@@ -31,7 +31,7 @@ describe( 'AutoBuffer' , function() {
             {
                 for ( var i = 0 ; i < 12 ; i++ )
                 {
-                    newBuffer[i].should.equal( buf[i%8] );
+                    newBuffer[i].should.equal( buf[i%size] );
                 }
             }
             length = autoBuffer.getLength()
@@ -39,7 +39,8 @@ describe( 'AutoBuffer' , function() {
             {
                 for ( var i = 0 ; i < length ; i++ )
                 {
-                    buffer[i].should.equal( buf[(i+12)%8] );
+                    var index = (i+12) % size;
+                    buffer[i].should.equal( buf[index] );
                 }
             }
             done();
@@ -47,7 +48,7 @@ describe( 'AutoBuffer' , function() {
         it( 'should pop and append correctly' , function( done ) {
 
             var autoBuffer = new AutoBuffer ( 5 );
-            var buf = new Buffer ( 10 );
+            var buf = new Buffer ( 5 );
             {
                 for ( var i = 0 ; i < buf.length ; i++ )
                 {
@@ -63,21 +64,14 @@ describe( 'AutoBuffer' , function() {
                 var even = 0;
                 for ( var i = 0 ; i < 20 ; i++ )
                 {
-                    if ( i % 2 == 0 )
-                    {
-                        even = 0;
-                    }
-                    else
-                    {
-                        even = 5;
-                    }
-                    autoBuffer.pop( popBuffer )
+                    autoBuffer.pop( popBuffer );
                     for ( var j = 0 ; j < popBuffer.length ; j++ )
                     {
-                        popBuffer[j].should.equal( even + j )
+                        popBuffer[j].should.equal( j % 5 );
                     }
 
                 }
+                autoBuffer.getLength().should.equal( 0 );
             }
             done();
         })

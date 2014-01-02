@@ -31,7 +31,7 @@ describe( 'endive-rpc' , function() {
 
     describe( '#test-protobuf' , function() {
         it( 'should load a proto file.' , function( done ) {
-            var dir = path.join( process.cwd() , 'protobuf' , 'call.proto' );
+            var dir = path.join( process.cwd() , 'protobuf' , 'functionCall.proto' );
             console.log( dir );
             var builder = ProtoBuf.loadProtoFile(  dir );
             var FunctionCall = builder.build( 'FunctionCall' );
