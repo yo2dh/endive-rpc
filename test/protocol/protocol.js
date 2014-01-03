@@ -15,101 +15,65 @@ describe( 'Protocol' , function() {
             arg: 'abc'
         };
         var data = JSON.stringify( object );
-        var packet = protocol.formatJsonPacket( data );
+        var packet = Protocol.formatJsonPacket( data );
 
-        event.on( 'jsonData' , function( json ) {
+        event.on( 'jsonObject' , function( json ) {
             ///console.log( protocolData.toString() );
-            json.toString().should.equal( data );
+            JSON.stringify( json ).should.equal( data );
             done();
         });
 
         protocol.processPacket( packet );
 
         setTimeout( function() {
-            done( "'jsonData' event didn't be called." );
+            done( "'jsonObject' event didn't be called." );
         }, 200 );
     });
 
     it( 'should format and process a function-call packet correctly' , function( done ) {
-        var event = new EventEmitter();
-        var protocol = new Protocol( event );
-
-        var farguments = { a:'123' , b:'22' , c:4 , d:[3,2,'3'] };
-        var packet = protocol.formatFunctionCallPacket( '323#1' , 'setData' , JSON.stringify( farguments ) );
-
-        event.on( 'functionCall' , function( functionCall ) {
-            console.log( functionCall );
-            functionCall.functionName.should.equal( 'setData' );
-            var object = JSON.parse( functionCall.arguments );
-            hash( object ).forEach( function( value , key ) {
-                if ( value instanceof Array )
-                {
-                    var compare = farguments[key];
-                    for( var i = 0 ; i < value.length ; i++ )
-                    {
-                        value[i].should.equal( compare[i] );
-                    }
-                }
-                else
-                {
-                    value.should.equal( farguments[key] );
-                }
-            });
-            done();
-        });
-
-        protocol.processPacket( packet );
-
-        setTimeout( function() {
-            done( "'functionCall' event didn't be called." );
-        }, 200 );
-    });
-
-    it( 'should format and process a function-call packet using RemoteInterface' , function( done ) {
-        var event = new EventEmitter();
-        var protocol = new Protocol( event );
+        var prosEvent = new EventEmitter();
+        var consEvent = new EventEmitter();
 
         var functions = {
+            setData: function() {
+                console.log( 'setData : ' + arguments );
+            },
             sum: function( a , b ) {
-                return (a+b);
+                return (a + b);
             }
         };
-        var remoteFunctions = {
-            sum: function() {
+        var prosProtocol = new Protocol( prosEvent , functions );
+        var consProtocol = new Protocol( consEvent );
 
-            }
-        };
-
-        var ri = new RemoteInterface( functions );
-
-        var farguments = { a:'123' , b:'22' , c:4 , d:[3,2,'3'] };
-        var packet = protocol.formatFunctionCallPacket( '323#1' , 'setData' , JSON.stringify( farguments ) );
-
-        event.on( 'functionCall' , function( functionCall ) {
-            console.log( functionCall );
-            functionCall.functionName.should.equal( 'setData' );
-            var object = JSON.parse( functionCall.arguments );
-            hash( object ).forEach( function( value , key ) {
-                if ( value instanceof Array )
-                {
-                    var compare = farguments[key];
-                    for( var i = 0 ; i < value.length ; i++ )
-                    {
-                        value[i].should.equal( compare[i] );
-                    }
-                }
-                else
-                {
-                    value.should.equal( farguments[key] );
-                }
+        prosEvent.on( 'send' , function( packet ) {
+            process.nextTick( function() {
+                consProtocol.processPacket( packet )
             });
-            done();
         });
+        consEvent.on( 'send' , function( packet ) {
+            process.nextTick( function() {
+                prosProtocol.processPacket( packet );
+            });
+        });
+        consEvent.on( 'remoteReady' , function( i ) {
+            i.setData( 123 , 456 , 'test' , ['a','b',3] , function( value ) {
+                console.log( 'return Data' );
+            });
+            i.sum( 3 , 4 , function( value ) {
+                value.should.equal( 7 );
+                done();
+            });
+        });
+        consEvent.on( 'returnValues' , function( returnValues ) {
+            console.log( returnValues );
+        });
+        prosProtocol.onConnected();
 
-        protocol.processPacket( packet );
+//        prosProtocol.processPacket( packet );
 
         setTimeout( function() {
-            done( "'functionCall' event didn't be called." );
+            done( "'send' or 'returnValues' event didn't be called." );
         }, 200 );
     });
+
 });

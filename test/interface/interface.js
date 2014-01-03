@@ -11,7 +11,6 @@ describe( 'interface' , function() {
     describe( '#LocalInterface' , function() {
         it( 'should call a function' , function( done ) {
             var event = new EventEmitter();
-
             var i = new LocalInterface( event , event );
             var functions = {sum: function( a , b ) { return a + b; }};
             i.setFunctions( functions );
@@ -23,9 +22,9 @@ describe( 'interface' , function() {
         it( 'should call a remote function' , function( done ) {
             var event = new EventEmitter();
             var i = new RemoteInterface( event );
-            var functions = [ 'sum' , 'setData' ];
-            i.setFunctions( functions );
-            var object = { sum: function( a , b ) { return a + b; } };
+            var fnames = [ 'sum' , 'setData' ];
+            i.setFunctions( fnames );
+            var functions = { sum: function( a , b ) { return a + b; } };
 
             event.on( 'functionCall' , function( requestId , requestDate , fname , args , cb ) {
                 console.log( arguments );
@@ -33,7 +32,8 @@ describe( 'interface' , function() {
                 hash( args ).forEach( function( value , key ) {
                     aargs.push( value );
                 });
-                cb ( object[fname].apply ( object , aargs ) );
+                var returnValue = functions[fname].apply ( functions , aargs );
+                i.responseFunction( requestId , requestDate.toJSON() , JSON.stringify( { value: returnValue } ) );
             });
             i.sum( 1 , 2 , function( result ) {
                 result.should.equal( 3 );

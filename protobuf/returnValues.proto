@@ -1,0 +1,6 @@
+message ReturnValues {
+    required string requestId = 1;
+    required string requestJsonDate = 2;
+    required int32  errorCode = 3;
+    optional string values = 4;
+}

@@ -1,6 +1,6 @@
 message FunctionCall {
-    required string id = 1;
+    required string requestId = 1;
     required string requestJsonDate = 2;
     required string functionName = 3;
-    repeated string arguments = 4;
+    required string arguments = 4;
 }
