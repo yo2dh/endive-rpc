@@ -46,8 +46,6 @@ describe( 'endive-rpc' , function() {
         }),
 
         it( 'should call a function and receive a return value from server to client.' , function( done ) {
-            done();
-            return;
             var event = new EventEmitter();
             event.getConnectionId = function ( host , port ) {
                 return util.format( '%s:%d' , host , port );

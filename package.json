@@ -1,12 +1,12 @@
 {
     "name": "endive-rpc" ,
-    "version": "0.5.0" ,
+    "version": "0.5.1" ,
     "description": "rpc" ,
     "engines": {
         "node": ">=0.10.0"
     } ,
     "author": {
-        "name": "yo2dh" ,
+        "name": "DaeHun Yoo" ,
         "email": "yo2dh@naver.com"
     } ,
     "private": false ,
