@@ -29,7 +29,7 @@
         "rpc"
     ] ,
     "dependencies": {
-        "endive-util": "0.0.2" ,
+        "endive-util": "0.1.0" ,
         "protobufjs": "2.0.1" ,
         "socket.io": "0.9.16" ,
         "hashish": "0.0.4" ,
