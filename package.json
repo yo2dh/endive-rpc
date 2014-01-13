@@ -1,6 +1,6 @@
 {
     "name": "endive-rpc" ,
-    "version": "0.5.1" ,
+    "version": "0.5.2" ,
     "description": "rpc" ,
     "engines": {
         "node": ">=0.10.0"
@@ -29,7 +29,7 @@
         "rpc"
     ] ,
     "dependencies": {
-        "endive-util": "0.1.0" ,
+        "endive-util": "latest" ,
         "protobufjs": "2.0.1" ,
         "socket.io": "0.9.16" ,
         "hashish": "0.0.4" ,

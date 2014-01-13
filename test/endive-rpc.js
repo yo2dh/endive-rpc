@@ -15,10 +15,17 @@ describe( 'endive-rpc' , function() {
                 sum: function( a , b ) { return a+b; } ,
                 mul: function( a , b ) { return a*b; }
             }).listen( 3800 , 'server' );
+            var timer = setTimeout( function() {
+                crpc.stop();
+                srpc.stop();
+                done( 'timeout');
+            }, 100 );
+
             var count = 0;
             var stops = function() {
                 if ( count == 2 )
                 {
+                    clearTimeout( timer );
                     crpc.stop();
                     srpc.stop();
                     done();
@@ -37,12 +44,6 @@ describe( 'endive-rpc' , function() {
                     stops();
                 });
             });
-
-            setTimeout( function() {
-                crpc.stop();
-                srpc.stop();
-                done( 'timeout');
-            }, 100 );
         }),
 
         it( 'should call a function and receive a return value from server to client.' , function( done ) {
@@ -64,10 +65,16 @@ describe( 'endive-rpc' , function() {
                 mul: function( a , b ) { return a*b; }
             }).listen( 3800 , 'server' , null , serverHandler );
 
+            var timer = setTimeout( function() {
+                crpc.stop();
+                srpc.stop();
+                done( 'timeout');
+            }, 200 );
             var count = 0;
             var stops = function() {
                 if ( count == 2 )
                 {
+                    clearTimeout( timer );
                     crpc.stop();
                     srpc.stop();
                     done();
@@ -86,11 +93,7 @@ describe( 'endive-rpc' , function() {
                     stops();
                 });
             });
-            setTimeout( function() {
-                crpc.stop();
-                srpc.stop();
-                done( 'timeout');
-            }, 100 );
+
         }),
 
         it( 'should call a function and receive a return value between them.' , function( done ) {
